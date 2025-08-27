@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
 
 export default function Write() {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [imageUri, setImageUri] = useState<string | null>(null);
 
   // TODO: 글 작성 API연결
   const onNext = async () => {
@@ -34,6 +36,23 @@ export default function Write() {
     }
   };
 
+  // 이미지 선택
+  const pickImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 0.7,
+      });
+
+      if (!result.canceled) {
+        setImageUri(result.assets[0].uri);
+      }
+    } catch (err) {
+      console.error("이미지 선택 오류:", err);
+    }
+  };
+
   return (
     <View className="flex-1 bg-black px-6 py-10">
       <Text className="text-white text-2xl font-bold mb-4">글 작성</Text>
@@ -53,6 +72,20 @@ export default function Write() {
         onChangeText={setContent}
         multiline
       />
+      <TouchableOpacity
+        onPress={pickImage}
+        className="bg-zinc-700 py-3 rounded-xl mb-4"
+      >
+        <Text className="text-white text-center font-semibold">이미지 선택</Text>
+      </TouchableOpacity>
+
+      {imageUri && (
+        <Image
+          source={{ uri: imageUri }}
+          className="w-full h-64 mb-4 rounded-xl"
+          resizeMode="contain"
+        />
+      )}
 
       <Text className="text-zinc-400 mb-6">작성자: 익명</Text>
 
