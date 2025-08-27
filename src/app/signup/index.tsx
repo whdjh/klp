@@ -1,16 +1,24 @@
-import { useState } from 'react'
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router';
 
 export default function Signup() {
-  const [id, setId] = useState('')
-  const [password, setPassword] = useState('')
+  const router = useRouter();
 
-  const isAllFilled = id !== '' && password !== ''
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
 
-  // 회원가입 API연결
-  const onNext = () => {
-    console.log('회원가입 시도:', { id, password })
-    // TODO: 실제 회원가입 로직 추가
+  const isAllFilled = id !== '' && password !== '';
+
+  //TODO: 회원가입 API연결
+  const onNext = async () => {
+    try {
+      await AsyncStorage.setItem('user', JSON.stringify({ id, password }));
+      router.push('/signin');
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
