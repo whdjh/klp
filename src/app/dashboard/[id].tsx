@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { View, Text, TouchableOpacity, Alert, ScrollView, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, Alert, ScrollView, TextInput, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Detail() {
@@ -98,6 +98,13 @@ export default function Detail() {
         <Text className="text-white text-2xl font-bold mb-4">{post.title}</Text>
         <Text className="text-zinc-400 mb-2">작성자: 익명</Text>
         <Text className="text-white text-base mb-8">{post.content}</Text>
+        {post.imageUri && (
+          <Image
+            source={{ uri: post.imageUri }}
+            className="w-full h-64 mb-4 rounded-xl"
+            resizeMode="contain"
+          />
+        )}
 
         {/* 댓글 섹션 */}
         <View className="border-t border-zinc-700 pt-6">
