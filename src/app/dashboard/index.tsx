@@ -2,8 +2,6 @@ import { useCallback, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import { useRouter, useFocusEffect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { saveMockData } from "@/src/mock/saveMockData";
-
 
 export default function Dashboard() {
   const router = useRouter();
@@ -13,12 +11,7 @@ export default function Dashboard() {
   const loadPosts = async () => {
     try {
       const stored = await AsyncStorage.getItem("posts");
-      let data = stored ? JSON.parse(stored) : [];
-      // 데이터가 없으면 mock 데이터 생성
-
-      if (data.length === 0) {
-        data = await saveMockData();
-      }
+      const data = stored ? JSON.parse(stored) : [];
 
       setPosts(data);
     } catch (err) {
