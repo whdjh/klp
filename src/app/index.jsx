@@ -4,11 +4,11 @@ import { useRouter } from 'expo-router'
 export default function HomeScreen() {
   const router = useRouter()
 
-  const goToSignIn = () => {
+  const goToSignin = () => {
     router.push('/signin')
   }
 
-  const goToSignUp = () => {
+  const goToSignup = () => {
     router.push('/signup')
   }
 
@@ -19,13 +19,13 @@ export default function HomeScreen() {
       </Text>
       <View className='flex flex-row gap-3'>
         <TouchableOpacity
-          onPress={goToSignIn}
+          onPress={goToSignin}
           className="bg-zinc-700 px-6 py-3 rounded-2xl"
         >
           <Text className="text-white text-lg font-semibold text-center">로그인</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={goToSignUp}
+          onPress={goToSignup}
           className="bg-zinc-700 px-6 py-3 rounded-2xl"
         >
           <Text className="text-white text-lg font-semibold text-center">회원가입</Text>
