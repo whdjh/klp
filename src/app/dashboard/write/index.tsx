@@ -25,6 +25,7 @@ export default function Write() {
         id: Date.now().toString(),
         title,
         content,
+        imageUri,
       };
 
       const updated = [...posts, newPost];
