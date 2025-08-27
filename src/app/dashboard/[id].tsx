@@ -12,13 +12,14 @@ export default function Detail() {
   const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
+    // 쿼리 파라미터는 배열로 올 수도 있는 경우 대비
     const postId = Array.isArray(id) ? id[0] : id;
 
     const loadPost = async () => {
       try {
         const stored = await AsyncStorage.getItem("posts");
         const posts = stored ? JSON.parse(stored) : [];
-        const found = posts.find((p: any) => p.id === postId);
+        const found = posts.find((person: any) => person.id === postId);
 
         if (!found) {
           Alert.alert(
@@ -52,7 +53,7 @@ export default function Detail() {
     }
   };
 
-  const addComment = async () => {
+  const onAdd = async () => {
     if (!newComment.trim()) {
       Alert.alert("알림", "댓글 내용을 입력해주세요.");
       return;
@@ -68,13 +69,13 @@ export default function Detail() {
 
     try {
       const updatedComments = [...comments, comment];
+
       await AsyncStorage.setItem(`comments_${postId}`, JSON.stringify(updatedComments));
+
       setComments(updatedComments);
       setNewComment("");
-      Alert.alert("성공", "댓글이 작성되었습니다.");
     } catch (err) {
       console.error("댓글 저장 오류:", err);
-      Alert.alert("오류", "댓글 작성에 실패했습니다.");
     }
   };
 
@@ -128,7 +129,7 @@ export default function Detail() {
           textAlignVertical="top"
         />
         <TouchableOpacity
-          onPress={addComment}
+          onPress={onAdd}
           className="bg-emerald-600 py-3 rounded-xl"
         >
           <Text className="text-white text-center font-semibold">댓글 작성</Text>
