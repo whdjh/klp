@@ -22,7 +22,7 @@ export default function Signin() {
       const { id: savedId, password: savedPassword } = JSON.parse(stored);
 
       if (id === savedId && password === savedPassword) {
-        router.push('/dashboard');
+        router.push('/dashboard' as any);
       } else {
         Alert.alert('로그인 실패', '아이디 또는 비밀번호가 올바르지 않습니다.')
       }

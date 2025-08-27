@@ -5,11 +5,11 @@ export default function HomeScreen() {
   const router = useRouter()
 
   const goToSignin = () => {
-    router.push('/signin')
+    router.push('/signin' as any);
   }
 
   const goToSignup = () => {
-    router.push('/signup')
+    router.push('/signup' as any);
   }
 
   return (

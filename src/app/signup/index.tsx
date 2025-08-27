@@ -15,7 +15,7 @@ export default function Signup() {
   const onNext = async () => {
     try {
       await AsyncStorage.setItem('user', JSON.stringify({ id, password }));
-      router.push('/signin');
+      router.push('/signin' as any);
     } catch (err) {
       console.error(err);
     }
