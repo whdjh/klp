@@ -1,16 +1,34 @@
-import { useState } from 'react'
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScrollView, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
 
 export default function Signin() {
-  const [id, setId] = useState('')
-  const [password, setPassword] = useState('')
+  const router = useRouter();
 
-  const isAllFilled = id !== '' && password !== ''
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
 
-  // 로그인 API연결
-  const onNext = () => {
-    console.log('로그인 시도:', { id, password })
-    // TODO: 실제 로그인 로직 추가
+  const isAllFilled = id !== '' && password !== '';
+
+  // TODO: 로그인 API연결
+  const onNext = async () => {
+    try {
+      const stored = await AsyncStorage.getItem('user');
+      if (!stored) {
+        return;
+      }
+
+      const { id: savedId, password: savedPassword } = JSON.parse(stored);
+
+      if (id === savedId && password === savedPassword) {
+        router.push('/dashboard');
+      } else {
+        Alert.alert('로그인 실패', '아이디 또는 비밀번호가 올바르지 않습니다.')
+      }
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
